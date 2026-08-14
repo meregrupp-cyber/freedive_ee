@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { REPLY_PROMISE } from '../data/site';
+import { AFTER_SUBMIT_PROMISE } from '../data/site';
 ---
 
 <Base
@@ -14,8 +14,7 @@ import { REPLY_PROMISE } from '../data/site';
       <p class="eyebrow">Received</p>
       <h1>Thank you — breathe out.</h1>
       <p class="lead">
-        Your enquiry is with the team. You will get an automatic confirmation by email
-        and {REPLY_PROMISE}.
+        Your enquiry is with the team. You will get {AFTER_SUBMIT_PROMISE}.
       </p>
 
       <div class="card summary" id="lead-summary" hidden>

@@ -102,5 +102,23 @@ export const TRUST_FACTS: Fact[] = [
 
 export const CONFIRMED_TRUST = TRUST_FACTS.filter((f) => f.status === 'confirmed');
 
-/** Realistic reply promise used on the Plan Ahead form and thank-you page. */
+/**
+ * Lead endpoint state — the single place that decides what the site is
+ * allowed to promise. With no endpoint configured the form cannot deliver
+ * anything, so no automatic-confirmation claim may appear anywhere in the
+ * public build (see docs/launch-checklist.md).
+ */
+export const LEAD_ENDPOINT: string = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
+export const HAS_LEAD_ENDPOINT = LEAD_ENDPOINT.length > 0;
+
+/**
+ * Reply promise. Kept to the concept's two-working-day standard.
+ * NOTE: freediving.meregrupp.ee currently states that no response time is
+ * promised — one owner-confirmed standard should apply to both domains.
+ */
 export const REPLY_PROMISE = 'a personal reply within two working days';
+
+/** What we may honestly tell the visitor happens after they send the form. */
+export const AFTER_SUBMIT_PROMISE = HAS_LEAD_ENDPOINT
+  ? `an automatic confirmation right away and ${REPLY_PROMISE}`
+  : REPLY_PROMISE;

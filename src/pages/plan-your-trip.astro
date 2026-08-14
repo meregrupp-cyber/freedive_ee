@@ -1,8 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { CONTACT, REPLY_PROMISE } from '../data/site';
+import { CONTACT, REPLY_PROMISE, AFTER_SUBMIT_PROMISE, LEAD_ENDPOINT } from '../data/site';
 
-const LEAD_ENDPOINT = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
 const IS_DEV = import.meta.env.DEV;
 
 const interests = [
@@ -79,7 +78,7 @@ const mailtoFallback = `mailto:${CONTACT.email}?subject=${encodeURIComponent('Tr
             service site.
           </p>
           <p class="muted">
-            You will get an automatic confirmation right away and {REPLY_PROMISE}.
+            You will get {AFTER_SUBMIT_PROMISE}.
           </p>
         </div>
       </div>
@@ -95,7 +94,7 @@ const mailtoFallback = `mailto:${CONTACT.email}?subject=${encodeURIComponent('Tr
           <div class="form-status form-status--info" role="status">
             <p>
               <strong>The planning form is still being connected.</strong> You can
-              already email us your trip details directly — same team, same{' '}
+              already email us your trip details directly — same team, and{' '}
               {REPLY_PROMISE}:
             </p>
             <p>
@@ -255,7 +254,7 @@ const mailtoFallback = `mailto:${CONTACT.email}?subject=${encodeURIComponent('Tr
               Plan with a local freediving team
             </button>
             <p class="muted form-after">
-              Automatic confirmation right away, {REPLY_PROMISE}. Prefer email?
+              You will get {AFTER_SUBMIT_PROMISE}. Prefer email?
               <a href={mailtoFallback}>Write to us directly</a>.
             </p>
           </form>
