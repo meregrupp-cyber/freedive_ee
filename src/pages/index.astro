@@ -3,9 +3,9 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import TrustBar from '../components/TrustBar.astro';
 import RouteCards from '../components/RouteCards.astro';
+import HeroVideo from '../components/HeroVideo.astro';
 import Faq from '../components/Faq.astro';
 import { SERVICES } from '../data/site';
-import heroImage from '../assets/hero-rummu.png';
 import rummuImage from '../assets/rummu-building.png';
 
 const faqs = [
@@ -71,17 +71,7 @@ const faqs = [
       <TrustBar />
     </div>
     <div class="wrap hero__media">
-      <Picture
-        src={heroImage}
-        widths={[640, 960, 1440, 1942]}
-        sizes="(min-width: 76rem) 72rem, 100vw"
-        formats={['avif', 'webp']}
-        fallbackFormat="jpg"
-        alt="A freediver in a wetsuit at the water surface of Rummu quarry, the flooded prison ruins behind — real training, real water, one breath: start, dive Rummu, or plan ahead."
-        loading="eager"
-        fetchpriority="high"
-        class="hero__img"
-      />
+      <HeroVideo />
     </div>
   </section>
 
@@ -261,13 +251,6 @@ const faqs = [
 
   .hero__media {
     margin-top: clamp(2rem, 5vw, 3.5rem);
-  }
-
-  .hero :global(.hero__img) {
-    width: 100%;
-    height: auto;
-    border-radius: calc(var(--radius) + 6px);
-    border: 1px solid var(--line);
   }
 
   .rummu-teaser {

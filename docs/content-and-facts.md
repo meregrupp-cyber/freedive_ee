@@ -18,13 +18,14 @@ build. Machine-readable trust facts live in `src/data/site.ts`
 | Rummu ≈ 1 hour drive from Tallinn, western Harju county | Rummu logistics section | public geography (Rummu, Vasalemma/Lääne-Harju) — deliberately vague ("roughly an hour") | 2026-08-14 |
 | Rummu history: limestone quarry worked by Murru prison inmates, flooded when pumping stopped | Rummu story | widely documented public history, kept general | 2026-08-14 |
 | Hero banner image (diver at Rummu + routes strip) | home hero, OG image | supplied by Meregrupp in this project | 2026-08-14 |
+| "Since 2018" | trust bar | production meregrupp.ee/en/ hero ("since 2018", MTÜ Meregrupp) | 2026-08-14 |
+| Hero video + poster (underwater footage) | home hero (desktop) | meregrupp-cyber/meregrupp001-ee repo, in production use on meregrupp.ee | 2026-08-14 |
 
 ## needs_confirmation (NOT in the public build)
 
 | Fact | Blocked from | What is needed |
 | --- | --- | --- |
 | "Tallinn & open water" trust badge | trust bar | Meregrupp confirms training locations wording |
-| "Since 2018" | trust bar | Meregrupp confirms founding year |
 | Instructor credentials (EOC underwater sports license, AIDA4 Master-Freediver, AIDA cert link) | team section | written confirmation from Meregrupp that these may be republished on freedive.ee; currently the site links to meregrupp.ee for credentials instead |
 | Course prices (legacy site: Level 1 €180), depths (5 m / 14 m), swimming prerequisite (100 m), age limits | everywhere | belongs to the service environment (freediving.meregrupp.ee) as the single source of truth — do not republish here |
 | AIDA under-16 limits table | everywhere | same — the service environment owns course/participant facts; also needs AIDA source confirmation |

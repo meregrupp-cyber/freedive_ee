@@ -17,8 +17,8 @@
 - [ ] **Security headers** applied at the host (see `public/_headers`;
       if the host does not read `_headers`, replicate them). Add the
       lead-endpoint origin to `connect-src`.
-- [ ] **Meregrupp sign-off on facts**: trust badges still excluded
-      ("Tallinn & open water", "Since 2018"), instructor credentials,
+- [ ] **Meregrupp sign-off on facts**: trust badge still excluded
+      ("Tallinn & open water"), instructor credentials,
       Rummu access/logistics wording — see docs/content-and-facts.md.
 
 ## Strongly recommended before launch

@@ -94,8 +94,9 @@ export const TRUST_FACTS: Fact[] = [
   },
   {
     label: 'Since 2018',
-    status: 'needs_confirmation',
-    source: 'Founding year not verifiable from public sources — confirm with Meregrupp',
+    status: 'confirmed',
+    source: 'Production meregrupp.ee/en/ hero states "since 2018" (MTÜ Meregrupp)',
+    lastReviewed: '2026-08-14',
   },
 ];
 

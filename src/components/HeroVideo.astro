@@ -1,0 +1,181 @@
+---
+/**
+ * Hero media: background-style video on capable desktop setups, the
+ * supplied banner image everywhere else.
+ *
+ * Rules implemented (see docs/asset-requirements.md):
+ * - video is muted, looped, playsinline, decorative (aria-hidden);
+ * - it never blocks the H1/lead/CTA — it sits in its own block below;
+ * - prefers-reduced-motion, Save-Data, slow connections and narrow
+ *   viewports all get the optimized still image instead;
+ * - sources are injected by JS only when the video may play, so mobile
+ *   never downloads a byte of it;
+ * - a visible pause/play control satisfies WCAG 2.2.2.
+ */
+import { Picture } from 'astro:assets';
+import heroImage from '../assets/hero-rummu.png';
+---
+
+<div class="hero-media" data-hero-media>
+  <div
+    class="hero-media__video"
+    data-hero-video
+    data-webm="/media/hero.webm"
+    data-mp4="/media/hero.mp4"
+    data-poster="/media/hero-poster.jpg"
+    hidden
+  >
+    <video muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+    <button
+      class="hero-media__toggle"
+      type="button"
+      data-video-toggle
+      aria-pressed="false"
+      hidden
+    >
+      Pause video
+    </button>
+  </div>
+
+  <Picture
+    src={heroImage}
+    widths={[640, 960, 1440, 1942]}
+    sizes="(min-width: 76rem) 72rem, 100vw"
+    formats={['avif', 'webp']}
+    fallbackFormat="jpg"
+    alt="A freediver in a wetsuit at the water surface of Rummu quarry, the flooded prison ruins behind — real training, real water, one breath: start, dive Rummu, or plan ahead."
+    loading="eager"
+    fetchpriority="high"
+    class="hero-media__img"
+  />
+</div>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('[data-hero-video]');
+  const media = document.querySelector<HTMLElement>('[data-hero-media]');
+  const video = wrap?.querySelector('video');
+  const toggle = wrap?.querySelector<HTMLButtonElement>('[data-video-toggle]');
+
+  interface NetInfo {
+    saveData?: boolean;
+    effectiveType?: string;
+  }
+
+  function videoAllowed(): boolean {
+    if (!wrap || !video) return false;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    if (!window.matchMedia('(min-width: 48rem)').matches) return false;
+    const conn = (navigator as Navigator & { connection?: NetInfo }).connection;
+    if (conn?.saveData) return false;
+    if (conn?.effectiveType && /(^|\b)(slow-2g|2g|3g)$/.test(conn.effectiveType)) return false;
+    return true;
+  }
+
+  if (wrap && video && media && toggle && videoAllowed()) {
+    video.poster = wrap.dataset.poster ?? '';
+    for (const [type, src] of [
+      ['video/webm', wrap.dataset.webm],
+      ['video/mp4', wrap.dataset.mp4],
+    ] as const) {
+      if (!src) continue;
+      const source = document.createElement('source');
+      source.type = type;
+      source.src = src;
+      video.appendChild(source);
+    }
+    video.muted = true;
+    video.load();
+
+    video.addEventListener(
+      'playing',
+      () => {
+        media.classList.add('is-video');
+        toggle.hidden = false;
+      },
+      { once: true }
+    );
+
+    toggle.addEventListener('click', () => {
+      if (video.paused) {
+        void video.play();
+        toggle.textContent = 'Pause video';
+        toggle.setAttribute('aria-pressed', 'false');
+      } else {
+        video.pause();
+        toggle.textContent = 'Play video';
+        toggle.setAttribute('aria-pressed', 'true');
+      }
+    });
+
+    wrap.hidden = false;
+    void video.play().catch(() => {
+      // Autoplay refused — keep the still image.
+      wrap.hidden = true;
+    });
+  }
+</script>
+
+<style>
+  .hero-media {
+    position: relative;
+  }
+
+  .hero-media :global(.hero-media__img) {
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--radius) + 6px);
+    border: 1px solid var(--line);
+  }
+
+  .hero-media__video {
+    position: relative;
+  }
+
+  .hero-media__video video {
+    width: 100%;
+    aspect-ratio: 1942 / 809;
+    object-fit: cover;
+    border-radius: calc(var(--radius) + 6px);
+    border: 1px solid var(--line);
+    display: block;
+  }
+
+  /* until the video is actually playing, only the image shows */
+  .hero-media:not(.is-video) .hero-media__video {
+    display: none;
+  }
+
+  .hero-media.is-video :global(.hero-media__img) {
+    display: none;
+  }
+
+  .hero-media__toggle {
+    position: absolute;
+    right: 0.9rem;
+    bottom: 0.9rem;
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: rgba(4, 21, 29, 0.75);
+    color: var(--mist-100);
+    font: inherit;
+    font-size: var(--step--1);
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .hero-media__toggle:hover {
+    border-color: var(--accent);
+    color: var(--foam-50);
+  }
+
+  @media (max-width: 48rem) {
+    .hero-media__video {
+      display: none !important;
+    }
+    .hero-media.is-video :global(.hero-media__img) {
+      display: block;
+    }
+  }
+</style>
