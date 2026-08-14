@@ -1,0 +1,12 @@
+old_url,new_url,status_code,reason,source,verified
+https://freedive.ee/,https://freedive.ee/,200,root URL unchanged — new multi-page site keeps the same front page URL,production crawl 2026-08-14,yes
+http://freedive.ee/,https://freedive.ee/,301,force single HTTPS host variant (configure at host/CDN level),host convention,pending_host_config
+https://www.freedive.ee/,https://freedive.ee/,301,force single host variant without www (configure at host/CDN level),host convention,pending_host_config
+https://freedive.ee/index.html,https://freedive.ee/,301,legacy direct file reference,public/_redirects,yes
+https://freedive.ee/#top,https://freedive.ee/,200,fragment — resolves to front page top,production single-page anchor inventory 2026-08-14,yes
+https://freedive.ee/#courses,https://freedive.ee/#courses,200,fragment preserved — anchor alias placed at the three-route section,anchor alias in src/pages/index.astro,yes
+https://freedive.ee/#method,https://freedive.ee/#method,200,fragment preserved — anchor alias placed at the safety section,anchor alias in src/pages/index.astro,yes
+https://freedive.ee/#training,https://freedive.ee/#training,200,fragment preserved — anchor alias placed at the seasons teaser (linked from freediving.meregrupp.ee),anchor alias in src/pages/index.astro,yes
+https://freedive.ee/#youth,https://freedive.ee/#youth,200,fragment preserved — anchor alias placed at the safety section (AIDA youth table itself moved behind service-site confirmation),anchor alias in src/pages/index.astro,yes
+https://freedive.ee/#contact,https://freedive.ee/#contact,200,fragment preserved — anchor alias placed at the footer contact block,anchor alias in src/components/Footer.astro,yes
+https://freedive.ee/#rummu,https://freedive.ee/#rummu,200,fragment preserved — inbound link exists on production freediving.meregrupp.ee,anchor alias in src/pages/index.astro,yes

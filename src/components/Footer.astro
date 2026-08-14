@@ -1,0 +1,114 @@
+---
+import { CONTACT, SERVICES, SITE } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <span id="contact" class="anchor-alias" aria-hidden="true"></span>
+  <div class="wrap site-footer__grid">
+    <div>
+      <p class="site-footer__brand">freedive<span>.ee</span></p>
+      <p class="muted">
+        {SITE.tagline} — the destination gateway of {SITE.brand.parentFull}, a local
+        freediving team training in Estonia year-round.
+      </p>
+      <p class="muted">
+        Courses, dates and booking live on
+        <a href={SERVICES.serviceHome} data-track-event="outbound_service_click" data-track-service="service_home" data-track-destination="freediving.meregrupp.ee">freediving.meregrupp.ee</a>.
+        More about the team on
+        <a href={SERVICES.hubPortal} data-track-event="outbound_service_click" data-track-service="hub_portal" data-track-destination="meregrupp.ee">meregrupp.ee</a>.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="site-footer__heading">Contact</h2>
+      <ul class="site-footer__list">
+        <li><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
+        <li><a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a></li>
+        <li>
+          <a href={CONTACT.facebook} rel="noopener" target="_blank">
+            Facebook<span class="visually-hidden"> (opens in a new tab)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="site-footer__heading">Explore</h2>
+      <ul class="site-footer__list">
+        <li><a href="/rummu-quarry/">Rummu Quarry</a></li>
+        <li><a href="/seasons-and-conditions/">Seasons &amp; Conditions</a></li>
+        <li><a href="/plan-your-trip/">Plan Your Trip</a></li>
+        <li><a href="/start-here/">Start Here</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap site-footer__legal">
+    <p class="muted">© {year} {SITE.brand.parent}. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    background: var(--ink-950);
+    padding-block: var(--space-5) var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 46rem) {
+    .site-footer__grid {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+
+  .site-footer__brand {
+    font-weight: 800;
+    font-size: var(--step-1);
+    color: var(--foam-50);
+    margin-bottom: var(--space-1);
+  }
+
+  .site-footer__brand span {
+    color: var(--aqua-300);
+  }
+
+  .site-footer__heading {
+    font-size: var(--step-0);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+
+  .site-footer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-footer__list li {
+    margin-bottom: 0.55rem;
+  }
+
+  .site-footer__list a {
+    color: var(--mist-100);
+    text-decoration: none;
+  }
+
+  .site-footer__list a:hover {
+    color: var(--aqua-300);
+    text-decoration: underline;
+  }
+
+  .site-footer__legal {
+    margin-top: var(--space-4);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--line);
+    font-size: var(--step--1);
+  }
+</style>

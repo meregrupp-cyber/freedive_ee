@@ -1,0 +1,23 @@
+---
+/**
+ * Placeholder media slot for photography that has not been delivered yet.
+ * Renders a neutral layered-water visual — never presented as a final
+ * photo. Every slot is registered in docs/asset-requirements.md.
+ */
+interface Props {
+  /** Asset ID matching docs/asset-requirements.md. */
+  slot_id: string;
+  ratio?: 'tall' | 'wide' | 'square';
+  class?: string;
+}
+
+const { slot_id, ratio = 'wide', class: className = '' } = Astro.props;
+---
+
+<figure
+  class={`media-slot media-slot--${ratio} ${className}`}
+  data-media-slot={slot_id}
+  role="img"
+  aria-label="Photography placeholder"
+>
+</figure>

@@ -1,0 +1,18 @@
+# Security headers sample (Cloudflare Pages / Netlify "_headers" format).
+# If production is served another way, apply the same headers there —
+# see README "Deploy assumptions".
+#
+# Notes:
+# - script-src includes googletagmanager.com only because GTM may be
+#   enabled later (it loads only after consent); remove it if analytics
+#   stays off.
+# - HSTS is deliberately NOT set here: enable it at the host only after
+#   confirming the whole domain (and any subdomain plans) is HTTPS-ready.
+# - When PUBLIC_LEAD_ENDPOINT is configured, add its origin to
+#   connect-src or the trip-planning form's fetch() will be blocked.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'

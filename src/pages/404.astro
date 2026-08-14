@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Page not found | freedive.ee"
+  description="This page does not exist — here are the routes that do."
+  path="/404/"
+  noindex={true}
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">404</p>
+      <h1>Nothing at this depth.</h1>
+      <p class="lead">
+        The page you were looking for is not here. The routes below cover everything
+        this site does.
+      </p>
+      <ul class="measure">
+        <li><a href="/">Freediving in Estonia</a> — the front page</li>
+        <li><a href="/rummu-quarry/">Rummu Quarry</a> — guided dives below the postcard</li>
+        <li><a href="/seasons-and-conditions/">Seasons &amp; Conditions</a> — when to come</li>
+        <li><a href="/plan-your-trip/">Plan Your Trip</a> — six to twelve months ahead</li>
+        <li><a href="/start-here/">Start Here</a> — choose your route</li>
+      </ul>
+      <a class="btn btn--primary" href="/">Back to the surface</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+</style>

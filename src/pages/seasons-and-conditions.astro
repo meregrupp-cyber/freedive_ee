@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro';
+import { SEASONS } from '../data/seasons';
+
+const intro =
+  'Estonia sits at the northern edge of Europe, and its water follows the calendar honestly. ' +
+  'The patterns below describe a typical year — the current, on-the-day conditions are a ' +
+  'different thing, and we confirm those with you as your trip gets close.';
+---
+
+<Base
+  title="Seasons & Conditions — when to freedive in Estonia | freedive.ee"
+  description="Freediving in Estonia changes with the season: long bright summers, serious cold-water winters, and honest shoulder seasons. What each season means for open water, pool, gear and planning."
+  path="/seasons-and-conditions/"
+  breadcrumbs={[
+    { name: 'Freediving in Estonia', path: '/' },
+    { name: 'Seasons & Conditions', path: '/seasons-and-conditions/' },
+  ]}
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Seasons &amp; conditions</p>
+      <h1>Freediving in Estonia changes with the season.</h1>
+      <p class="lead">{intro}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="pattern-note-heading">
+    <div class="wrap">
+      <h2 id="pattern-note-heading" class="visually-hidden">How to read this page</h2>
+      <p class="measure">
+        <strong>Typical pattern</strong> is what a season usually looks like here.
+        <strong>Current condition</strong> — the actual water, wind and access on your
+        dates — is checked and confirmed by the local team close to your trip, never
+        promised months out.
+      </p>
+    </div>
+  </section>
+
+  {
+    SEASONS.map((season) => (
+      <section class="section section--line" aria-labelledby={`season-${season.id}`}>
+        <div class="wrap">
+          <h2 id={`season-${season.id}`}>
+            {season.name} <span class="season-months">{season.months}</span>
+          </h2>
+          <p class="lead measure">{season.summary}</p>
+          <div class="grid grid--2">
+            <div>
+              <h3>Typical pattern</h3>
+              <ul>
+                {season.typicalPattern.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>Planning notes</h3>
+              <p>{season.planning}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section section--line" aria-labelledby="gear-heading">
+    <div class="wrap">
+      <h2 id="gear-heading">Water, pool, gear and daylight</h2>
+      <div class="grid grid--2">
+        <div>
+          <p>
+            <strong>Open water and pool.</strong> Open-water sites carry the season's
+            character; pool sessions keep training steady when the sea and quarry do
+            not cooperate. The mix shifts with the calendar, and the team plans it with
+            you.
+          </p>
+          <p>
+            <strong>Gear.</strong> This is cold-water freediving in every season — proper
+            exposure protection is part of the plan, not an accessory. Tell us what you
+            own when you get in touch, and we will discuss what your dates require.
+          </p>
+        </div>
+        <div>
+          <p>
+            <strong>Daylight.</strong> Estonia's daylight swings hard: white midsummer
+            evenings at one end, a narrow midday window in December at the other.
+            Session timing follows the light.
+          </p>
+          <p>
+            <strong>Logistics.</strong> Roads, site access and travel comfort also change
+            with the season — worth thinking about before you fix flights, and exactly
+            the kind of thing local knowledge is for.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="next-heading">
+    <div class="wrap">
+      <h2 id="next-heading">Found your season?</h2>
+      <p class="lead measure">
+        If Rummu is the goal, read how guided dives work. If your dates are further
+        out, tell us your travel window and we will plan around the season together.
+      </p>
+      <div class="season-cta">
+        <a
+          class="btn btn--primary"
+          href="/rummu-quarry/"
+          data-track-event="select_route"
+          data-track-route="rummu"
+          data-track-origin="seasons_cta"
+          data-track-destination="/rummu-quarry/"
+        >
+          Explore Rummu
+        </a>
+        <a
+          class="btn"
+          href="/plan-your-trip/"
+          data-track-event="select_route"
+          data-track-route="plan_ahead"
+          data-track-origin="seasons_cta"
+          data-track-destination="/plan-your-trip/"
+        >
+          Plan your trip
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem) 0;
+  }
+
+  .season-months {
+    display: block;
+    font-size: var(--step-0);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--aqua-300);
+    margin-top: 0.4rem;
+  }
+
+  .season-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+</style>
