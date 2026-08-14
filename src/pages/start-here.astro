@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+import { SERVICES } from '../data/site';
+---
+
+<Base
+  title="Start Here — choose your freediving route in Estonia | freedive.ee"
+  description="First freedive, a guided Rummu trip, or planning six to twelve months ahead? Three honest questions that put you on the right route in under a minute."
+  path="/start-here/"
+  offer="start"
+  breadcrumbs={[
+    { name: 'Freediving in Estonia', path: '/' },
+    { name: 'Start Here', path: '/start-here/' },
+  ]}
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Start here</p>
+      <h1>Choose the route that fits your level and timing.</h1>
+      <p class="lead">
+        Three questions, three routes — each one takes you straight to the right page or
+        person, without a maze of menus.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="routes-q-heading">
+    <div class="wrap">
+      <h2 id="routes-q-heading" class="visually-hidden">The three routes</h2>
+      <div class="grid grid--3" data-route-cards>
+        <article class="card route-q" data-route="start">
+          <p class="eyebrow">Start now</p>
+          <h3>Is this your first freedive?</h3>
+          <p class="muted">
+            Perfect — everyone here started with a first calm breath. You need to be a
+            confident swimmer and healthy enough for gentle exertion; the rest is
+            taught, in English, one unhurried step at a time. Your first freedive is
+            not a breath-hold contest.
+          </p>
+          <a
+            class="btn btn--primary"
+            href={SERVICES.startFreediving}
+            rel="noopener"
+            data-track-event="outbound_service_click"
+            data-track-service="start_freediving"
+            data-track-origin="start_here"
+            data-track-destination="freediving.meregrupp.ee"
+          >
+            Start freediving
+            <span class="visually-hidden"> — continues on freediving.meregrupp.ee</span>
+          </a>
+          <p class="route-q__note muted">Continues on our course &amp; booking site</p>
+        </article>
+
+        <article class="card route-q" data-route="rummu">
+          <p class="eyebrow">Dive Rummu</p>
+          <h3>Already trained and coming for Rummu?</h3>
+          <p class="muted">
+            Then Rummu is probably why you are here. Read how guided dives work — the
+            suitability check, the conditions, the local go/no-go call — and then check
+            your dates.
+          </p>
+          <a
+            class="btn btn--primary"
+            href="/rummu-quarry/"
+            data-track-event="select_route"
+            data-track-route="rummu"
+            data-track-origin="start_here"
+            data-track-destination="/rummu-quarry/"
+          >
+            Explore Rummu
+          </a>
+        </article>
+
+        <article class="card route-q" data-route="plan_ahead">
+          <p class="eyebrow">Plan ahead</p>
+          <h3>Planning six to twelve months ahead?</h3>
+          <p class="muted">
+            Smart move — seasons decide a lot here. Tell us your level, group size and
+            travel window, and plan the trip with local knowledge instead of guesswork.
+          </p>
+          <a
+            class="btn btn--primary"
+            href="/plan-your-trip/"
+            data-track-event="select_route"
+            data-track-route="plan_ahead"
+            data-track-origin="start_here"
+            data-track-destination="/plan-your-trip/"
+          >
+            Plan your trip
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="regular-heading">
+    <div class="wrap">
+      <h2 id="regular-heading">Looking for regular training in Estonia?</h2>
+      <p class="measure">
+        If you live here — or visit often — and want steady, coached freediving practice
+        rather than a one-off trip, the team runs ongoing training year-round.
+      </p>
+      <a
+        class="btn"
+        href={SERVICES.ongoingTraining}
+        rel="noopener"
+        data-track-event="outbound_service_click"
+        data-track-service="ongoing_training"
+        data-track-origin="start_here"
+        data-track-destination="freediving.meregrupp.ee"
+      >
+        See ongoing training
+        <span class="visually-hidden"> — continues on freediving.meregrupp.ee</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem) 0;
+  }
+
+  .route-q {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .route-q .btn {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+
+  .route-q__note {
+    font-size: var(--step--1);
+    margin: 0.6rem 0 0;
+  }
+
+  @media (max-width: 24rem) {
+    .route-q .btn {
+      align-self: stretch;
+      justify-content: center;
+    }
+  }
+</style>

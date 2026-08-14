@@ -1,0 +1,310 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT, REPLY_PROMISE } from '../data/site';
+
+const LEAD_ENDPOINT = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
+const IS_DEV = import.meta.env.DEV;
+
+const interests = [
+  { value: 'rummu', label: 'Guided Rummu dive' },
+  { value: 'course', label: 'Freediving course' },
+  { value: 'open_water', label: 'Open-water sessions' },
+  { value: 'pool', label: 'Pool training' },
+  { value: 'private_group', label: 'Private group' },
+  { value: 'photo_video', label: 'Photo / video' },
+];
+
+const experienceLevels = [
+  { value: 'none', label: 'No freediving experience yet' },
+  { value: 'beginner', label: 'Some experience, no certification' },
+  { value: 'certified_entry', label: 'Entry-level certification' },
+  { value: 'certified_advanced', label: 'Advanced certification' },
+  { value: 'instructor', label: 'Instructor / professional' },
+];
+
+const mailtoFallback = `mailto:${CONTACT.email}?subject=${encodeURIComponent('Trip planning — freedive.ee')}&body=${encodeURIComponent(
+  'Name:\nCountry:\nTravel window:\nGroup size:\nExperience level:\nWhat I am interested in:\n'
+)}`;
+---
+
+<Base
+  title="Plan Your Trip — freediving in Estonia, six to twelve months ahead | freedive.ee"
+  description="Plan Estonia for next season. Tell a local freediving team your level, group size and travel window, and get honest help with seasons, Rummu, training and logistics before you book anything."
+  path="/plan-your-trip/"
+  offer="plan_ahead"
+  breadcrumbs={[
+    { name: 'Freediving in Estonia', path: '/' },
+    { name: 'Plan Your Trip', path: '/plan-your-trip/' },
+  ]}
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Plan ahead</p>
+      <h1>Plan Estonia for next season.</h1>
+      <p class="lead">
+        Looking six to twelve months ahead? Tell us your level, group size and travel
+        window. We will help you understand the seasons, suitable training and
+        guided-dive options before you book the trip.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="fit-heading">
+    <div class="wrap">
+      <h2 id="fit-heading">Who this planning route fits</h2>
+      <div class="grid grid--2">
+        <div>
+          <p>
+            Solo travellers, couples, clubs and small groups — anyone who wants Estonia
+            on next year's freediving calendar and would rather plan it with local
+            knowledge than guess from photos.
+          </p>
+          <p>We can help you assess, honestly and specifically:</p>
+          <ul>
+            <li>which season fits your experience and goals;</li>
+            <li>whether a guided Rummu dive is realistic for your group;</li>
+            <li>what training — open water, pool or both — makes sense around your dates;</li>
+            <li>equipment questions for cold northern water;</li>
+            <li>local logistics: getting around, timing, backup plans.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>How planning usually goes</h3>
+          <p>
+            An example, not a package: a pair of certified freedivers write to us in
+            winter about a summer trip. We talk through their comfort depths and dates,
+            agree that late summer fits best, sketch a plan of guided Rummu days with a
+            pool session as the weather backup, and list the gear worth bringing. Closer
+            to the dates, conditions get confirmed and the plan becomes bookings on our
+            service site.
+          </p>
+          <p class="muted">
+            You will get an automatic confirmation right away and {REPLY_PROMISE}.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="form-heading">
+    <div class="wrap">
+      <h2 id="form-heading">Tell us about your trip</h2>
+
+      {
+        !LEAD_ENDPOINT && !IS_DEV ? (
+          <div class="form-status form-status--info" role="status">
+            <p>
+              <strong>The planning form is still being connected.</strong> You can
+              already email us your trip details directly — same team, same{' '}
+              {REPLY_PROMISE}:
+            </p>
+            <p>
+              <a class="btn btn--primary" href={mailtoFallback}>
+                Email your trip details
+              </a>
+            </p>
+          </div>
+        ) : null
+      }
+      {
+        (
+          <form
+            id="plan-form"
+            method="post"
+            action={LEAD_ENDPOINT || undefined}
+            novalidate
+            data-endpoint={LEAD_ENDPOINT}
+            data-dev={IS_DEV ? 'true' : 'false'}
+          >
+            {IS_DEV && !LEAD_ENDPOINT ? (
+              <div class="form-status form-status--info">
+                <p>
+                  <strong>Developer note (dev build only):</strong> PUBLIC_LEAD_ENDPOINT is
+                  not set — submissions will not be delivered. See .env.example and
+                  docs/launch-checklist.md.
+                </p>
+              </div>
+            ) : null}
+
+            <div
+              class="form-status form-status--error"
+              id="form-errors"
+              role="alert"
+              tabindex="-1"
+              hidden
+            >
+              <p><strong>Please check the following:</strong></p>
+              <ul id="form-errors-list"></ul>
+            </div>
+
+            <div class="field">
+              <label for="pf-name">Name <span aria-hidden="true">*</span></label>
+              <input type="text" id="pf-name" name="name" required autocomplete="name" aria-describedby="pf-name-err" />
+              <span class="error" id="pf-name-err">Please tell us your name.</span>
+            </div>
+
+            <div class="field">
+              <label for="pf-email">Email <span aria-hidden="true">*</span></label>
+              <span class="hint">We reply here — double-check the spelling.</span>
+              <input type="email" id="pf-email" name="email" required autocomplete="email" aria-describedby="pf-email-err" />
+              <span class="error" id="pf-email-err">Please enter a valid email address.</span>
+            </div>
+
+            <div class="field">
+              <label for="pf-phone">Phone or WhatsApp <span class="hint-inline">(optional)</span></label>
+              <input type="tel" id="pf-phone" name="phone" autocomplete="tel" />
+            </div>
+
+            <div class="field">
+              <label for="pf-country">Country <span aria-hidden="true">*</span></label>
+              <input type="text" id="pf-country" name="country" required autocomplete="country-name" aria-describedby="pf-country-err" />
+              <span class="error" id="pf-country-err">Please tell us where you are travelling from.</span>
+            </div>
+
+            <div class="field">
+              <label for="pf-language">Preferred language <span aria-hidden="true">*</span></label>
+              <span class="hint">Training and guiding run in English; tell us what you are most comfortable with.</span>
+              <input type="text" id="pf-language" name="preferred_language" required aria-describedby="pf-language-err" />
+              <span class="error" id="pf-language-err">Please tell us your preferred language.</span>
+            </div>
+
+            <div class="field">
+              <label for="pf-window">Travel month or date window <span aria-hidden="true">*</span></label>
+              <span class="hint">For example "July 2027" or "late May – early June".</span>
+              <input type="text" id="pf-window" name="travel_window" required aria-describedby="pf-window-err" />
+              <span class="error" id="pf-window-err">Please give us a rough travel window.</span>
+            </div>
+
+            <div class="field">
+              <label for="pf-days">Number of days <span class="hint-inline">(optional)</span></label>
+              <input type="number" id="pf-days" name="days" min="1" max="60" inputmode="numeric" />
+            </div>
+
+            <div class="field">
+              <label for="pf-group">Group size <span aria-hidden="true">*</span></label>
+              <input type="number" id="pf-group" name="group_size" required min="1" max="30" inputmode="numeric" aria-describedby="pf-group-err" />
+              <span class="error" id="pf-group-err">Please tell us how many people are coming.</span>
+            </div>
+
+            <div class="field">
+              <label for="pf-experience">Freediving experience level <span aria-hidden="true">*</span></label>
+              <select id="pf-experience" name="experience_level" required aria-describedby="pf-experience-err">
+                <option value="">Choose the closest match…</option>
+                {experienceLevels.map((level) => (
+                  <option value={level.value}>{level.label}</option>
+                ))}
+              </select>
+              <span class="error" id="pf-experience-err">Please choose your experience level.</span>
+            </div>
+
+            <div class="field">
+              <label for="pf-cert">Certification <span class="hint-inline">(optional)</span></label>
+              <span class="hint">Agency and level, if you have one.</span>
+              <input type="text" id="pf-cert" name="certification" />
+            </div>
+
+            <fieldset>
+              <legend>What are you interested in?</legend>
+              {interests.map((interest) => (
+                <div class="checkbox-field">
+                  <input type="checkbox" id={`pf-int-${interest.value}`} name="interests" value={interest.value} />
+                  <label for={`pf-int-${interest.value}`}>{interest.label}</label>
+                </div>
+              ))}
+            </fieldset>
+
+            <div class="field">
+              <label for="pf-equipment">Equipment needs <span class="hint-inline">(optional)</span></label>
+              <span class="hint">What you own, what you would need here.</span>
+              <input type="text" id="pf-equipment" name="equipment_needs" />
+            </div>
+
+            <div class="field">
+              <label for="pf-budget">Budget range <span class="hint-inline">(optional)</span></label>
+              <span class="hint">A rough range helps us suggest realistic options.</span>
+              <input type="text" id="pf-budget" name="budget_range" />
+            </div>
+
+            <div class="field">
+              <label for="pf-message">Anything else? <span class="hint-inline">(optional)</span></label>
+              <textarea id="pf-message" name="message" rows="5"></textarea>
+            </div>
+
+            <div class="honeypot" aria-hidden="true">
+              <label for="pf-website">Leave this field empty</label>
+              <input type="text" id="pf-website" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="checkbox-field">
+              <input type="checkbox" id="pf-consent" name="consent_privacy" required aria-describedby="pf-consent-err" />
+              <label for="pf-consent">
+                I agree that my details are used to answer this enquiry, as described on the
+                <a href="/privacy/">privacy page</a>. <span aria-hidden="true">*</span>
+              </label>
+            </div>
+            <span class="error checkbox-error" id="pf-consent-err">Please agree so we can reply to you.</span>
+
+            <div class="checkbox-field">
+              <input type="checkbox" id="pf-marketing" name="marketing_opt_in" />
+              <label for="pf-marketing">
+                Also send me occasional updates about seasons and guided dives in Estonia. (optional)
+              </label>
+            </div>
+
+            <button class="btn btn--primary" type="submit" id="pf-submit">
+              Plan with a local freediving team
+            </button>
+            <p class="muted form-after">
+              Automatic confirmation right away, {REPLY_PROMISE}. Prefer email?
+              <a href={mailtoFallback}>Write to us directly</a>.
+            </p>
+          </form>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<script src="../lib/plan-form.ts"></script>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem) 0;
+  }
+
+  .hint-inline {
+    font-weight: 450;
+    color: var(--text-muted);
+    font-size: var(--step--1);
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .checkbox-error {
+    display: none;
+    color: #f2c4c4;
+    font-size: var(--step--1);
+    margin: -0.5rem 0 var(--space-2);
+  }
+
+  .checkbox-error.is-visible {
+    display: block;
+  }
+
+  .form-after {
+    margin-top: var(--space-2);
+    font-size: var(--step--1);
+  }
+
+  #form-errors ul {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+</style>

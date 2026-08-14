@@ -1,0 +1,283 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import TrustBar from '../components/TrustBar.astro';
+import RouteCards from '../components/RouteCards.astro';
+import Faq from '../components/Faq.astro';
+import { SERVICES } from '../data/site';
+import heroImage from '../assets/hero-rummu.png';
+import rummuImage from '../assets/rummu-building.png';
+
+const faqs = [
+  {
+    q: 'Do I need any experience to start?',
+    a: 'No. If freediving is new to you, the right first step is a guided beginner course in English — calm, structured and safety-first. Follow the <a href="/start-here/">Start Here</a> route and we will point you to the course details.',
+  },
+  {
+    q: 'Can I just show up and dive Rummu?',
+    a: 'No — Rummu is a guided experience for people who already freedive, and every dive starts with a suitability and conditions check. Read the <a href="/rummu-quarry/">Rummu Quarry</a> page to see how it works.',
+  },
+  {
+    q: 'When is the best time to visit Estonia for freediving?',
+    a: 'Summer is the most forgiving for a first visit, but the team trains year-round and every season has its own character. The <a href="/seasons-and-conditions/">Seasons &amp; Conditions</a> page walks through all four.',
+  },
+  {
+    q: 'Is everything really in English?',
+    a: 'Yes — training and guiding run in English, and the course and booking environment at freediving.meregrupp.ee is English-first.',
+  },
+  {
+    q: 'Where do I see courses, dates and prices?',
+    a: `Course details, dates and booking live on our service site: <a href="${SERVICES.serviceHome}" rel="noopener" data-track-event="outbound_service_click" data-track-service="service_home" data-track-destination="freediving.meregrupp.ee">freediving.meregrupp.ee</a>. This site helps you choose the right route first.`,
+  },
+];
+---
+
+<Base
+  title="Freediving in Estonia — Rummu, seasons and cold-water training | freedive.ee"
+  description="There is another Estonia below the surface. Cold-water freediving training, guided Rummu dives and trip planning with a local, English-led, safety-first team."
+  path="/"
+>
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="wrap">
+      <p class="eyebrow">Freediving in Estonia</p>
+      <h1 id="hero-heading">There is another Estonia below the surface.</h1>
+      <p class="lead">
+        Explore cold-water training, guided Rummu dives and the right season for your trip —
+        with a local team that puts calm, technique and safety before depth.
+      </p>
+      <div class="hero__actions">
+        <a
+          class="btn btn--primary"
+          href="#routes"
+          data-track-event="select_route"
+          data-track-route="choose"
+          data-track-origin="hero"
+          data-track-destination="#routes"
+        >
+          Choose your route
+        </a>
+        <a
+          class="btn"
+          href="/rummu-quarry/"
+          data-track-event="select_route"
+          data-track-route="rummu"
+          data-track-origin="hero"
+          data-track-destination="/rummu-quarry/"
+        >
+          Explore Rummu
+        </a>
+      </div>
+      <TrustBar />
+    </div>
+    <div class="wrap hero__media">
+      <Picture
+        src={heroImage}
+        widths={[640, 960, 1440, 1942]}
+        sizes="(min-width: 76rem) 72rem, 100vw"
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        alt="A freediver in a wetsuit at the water surface of Rummu quarry, the flooded prison ruins behind — real training, real water, one breath: start, dive Rummu, or plan ahead."
+        loading="eager"
+        fetchpriority="high"
+        class="hero__img"
+      />
+    </div>
+  </section>
+
+  <!-- THREE ROUTES -->
+  <section class="section" aria-labelledby="routes-heading">
+    <span id="courses" class="anchor-alias" aria-hidden="true"></span>
+    <div class="wrap">
+      <h2 id="routes-heading"><span id="routes"></span>Three ways in. One calm start.</h2>
+      <p class="lead measure">
+        Pick the route that matches where you are today — each one gets you to the right
+        page, form or person without guessing.
+      </p>
+      <RouteCards origin="home_routes" />
+    </div>
+  </section>
+
+  <!-- WHY ESTONIA -->
+  <section class="section section--line" aria-labelledby="why-heading">
+    <div class="wrap">
+      <h2 id="why-heading">Why Estonia, of all places?</h2>
+      <div class="grid grid--2">
+        <div>
+          <p>
+            Estonia is not a postcard diving destination — and that is the point. Below the
+            surface it offers something rarer: a flooded Soviet-era quarry with walls and
+            ruins to explore, dark Baltic water that rewards calm technique, and a small
+            local team that treats every dive as training first, spectacle second.
+          </p>
+          <p>
+            The water here is cold, honest and quiet. Freedivers who learn in these
+            conditions tend to carry unusual composure anywhere else they dive.
+          </p>
+          <p class="muted">
+            Real training. Real water. One breath.
+          </p>
+        </div>
+        <div>
+          <p>
+            Tallinn's old town, forest lakes and the Baltic coast make the surface half of
+            the trip worth the flight on its own — but this site is about what waits below.
+          </p>
+          <p>
+            Whether you are taking a first breath-hold under supervision or bringing years
+            of certification cards to Rummu, the local knowledge is the product: seasons,
+            sites, conditions and honest go/no-go calls.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RUMMU TEASER -->
+  <section class="section section--line" aria-labelledby="rummu-heading">
+    <span id="rummu" class="anchor-alias" aria-hidden="true"></span>
+    <div class="wrap">
+      <div class="grid grid--2 rummu-teaser">
+        <div>
+          <p class="eyebrow">Guided Rummu freediving</p>
+          <h2 id="rummu-heading">Dive Rummu below the postcard.</h2>
+          <p>
+            A limestone quarry, a former prison, and the flooded ruins between them —
+            Rummu is one of the most unusual freediving sites in northern Europe. It is
+            dived with local guidance, an experience check and honest conditions calls,
+            not as a walk-in attraction.
+          </p>
+          <a
+            class="btn btn--primary"
+            href="/rummu-quarry/"
+            data-track-event="select_route"
+            data-track-route="rummu"
+            data-track-origin="home_rummu_teaser"
+            data-track-destination="/rummu-quarry/"
+          >
+            Explore Rummu
+          </a>
+        </div>
+        <Picture
+          src={rummuImage}
+          widths={[480, 800, 1062]}
+          sizes="(min-width: 46rem) 34rem, 100vw"
+          formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+          alt="The flooded prison building above the waterline at Rummu quarry, a freediver at the surface in the foreground."
+          loading="lazy"
+          class="rummu-teaser__img"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- SEASONS TEASER -->
+  <section class="section section--line" aria-labelledby="seasons-heading">
+    <span id="training" class="anchor-alias" aria-hidden="true"></span>
+    <div class="wrap">
+      <h2 id="seasons-heading">Four very different seasons. One year-round team.</h2>
+      <p class="measure">
+        Midsummer gives long bright evenings and the mildest water; midwinter means ice,
+        short days and serious cold-water practice for the well-prepared. Knowing which
+        Estonia you are flying into is half the trip.
+      </p>
+      <a
+        class="btn"
+        href="/seasons-and-conditions/"
+        data-track-event="select_route"
+        data-track-route="seasons"
+        data-track-origin="home_seasons_teaser"
+        data-track-destination="/seasons-and-conditions/"
+      >
+        See seasons &amp; conditions
+      </a>
+    </div>
+  </section>
+
+  <!-- SAFETY -->
+  <section class="section section--line" aria-labelledby="safety-heading">
+    <span id="method" class="anchor-alias" aria-hidden="true"></span>
+    <span id="youth" class="anchor-alias" aria-hidden="true"></span>
+    <div class="wrap">
+      <h2 id="safety-heading">Depth comes after calm, technique and a buddy.</h2>
+      <div class="grid grid--2">
+        <p>
+          Nothing on this site asks you to be brave. Freediving here is built on relaxed
+          breathing, unhurried technique and a buddy system — depth and duration are
+          outcomes of calm, never goals to push for. Your first freedive is not a
+          breath-hold contest.
+        </p>
+        <p>
+          Every guided dive starts with an honest conversation about experience,
+          conditions and comfort — and the local team makes the final go/no-go call.
+          How safety is organised in practice is described on the
+          <a href={SERVICES.safety} rel="noopener" data-track-event="outbound_service_click" data-track-service="safety" data-track-destination="freediving.meregrupp.ee">service site's safety section</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCAL TEAM -->
+  <section class="section section--line" aria-labelledby="team-heading">
+    <div class="wrap">
+      <h2 id="team-heading">A small local team, not a tour operator.</h2>
+      <p class="measure">
+        freedive.ee is run by {`Meregrupp / Allvee Akadeemia`} — an Estonian freediving
+        team that trains in local water in every season and guides visitors in English.
+        You will be in the water with people who dive these exact sites all year, not with
+        a franchise following a script.
+      </p>
+      <p class="measure muted">
+        Team background and credentials are published on
+        <a href={SERVICES.hubPortal} rel="noopener" data-track-event="outbound_service_click" data-track-service="hub_portal" data-track-destination="meregrupp.ee">meregrupp.ee</a>.
+      </p>
+    </div>
+  </section>
+
+  <Faq items={faqs} />
+
+  <!-- FINAL CTA -->
+  <section class="section section--line" aria-labelledby="final-cta-heading">
+    <div class="wrap">
+      <h2 id="final-cta-heading">Ready when you are.</h2>
+      <p class="lead measure">Start now, dive Rummu, or plan next season — pick your route.</p>
+      <RouteCards origin="home_final_cta" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem) 0;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .hero__media {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .hero :global(.hero__img) {
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--radius) + 6px);
+    border: 1px solid var(--line);
+  }
+
+  .rummu-teaser {
+    align-items: center;
+  }
+
+  .rummu-teaser :global(.rummu-teaser__img) {
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--radius) + 4px);
+    border: 1px solid var(--line);
+  }
+</style>

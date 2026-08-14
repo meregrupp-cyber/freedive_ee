@@ -1,0 +1,67 @@
+---
+import { ROUTES } from '../data/routes';
+
+interface Props {
+  /** Where these cards are rendered — used in analytics params. */
+  origin: string;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { origin, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+---
+
+<div class="route-cards grid grid--3" data-route-cards>
+  {
+    ROUTES.map((route) => (
+      <article class="card route-card" data-route={route.id}>
+        <p class="eyebrow">{route.eyebrow}</p>
+        <Heading class="route-card__question">{route.question}</Heading>
+        <p class="muted">{route.text}</p>
+        <a
+          class="btn btn--primary route-card__cta"
+          href={route.href}
+          rel={route.external ? 'noopener' : undefined}
+          data-track-event={route.external ? 'outbound_service_click' : 'select_route'}
+          data-track-route={route.id}
+          data-track-service={route.external ? route.id : undefined}
+          data-track-origin={origin}
+          data-track-destination={route.href}
+        >
+          {route.cta}
+          {route.external ? <span class="visually-hidden"> — continues on freediving.meregrupp.ee</span> : null}
+        </a>
+        {route.external ? <p class="route-card__note muted">Continues on our course &amp; booking site</p> : null}
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .route-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .route-card__question {
+    margin-bottom: 0.2em;
+  }
+
+  .route-card__cta {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+
+  .route-card__note {
+    font-size: var(--step--1);
+    margin: 0.6rem 0 0;
+  }
+
+  @media (max-width: 24rem) {
+    .route-card__cta {
+      align-self: stretch;
+      justify-content: center;
+    }
+  }
+</style>

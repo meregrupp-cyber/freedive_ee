@@ -1,0 +1,35 @@
+---
+import { CONFIRMED_TRUST } from '../data/site';
+---
+
+{
+  CONFIRMED_TRUST.length > 0 ? (
+    <ul class="trust-bar" aria-label="What to expect">
+      {CONFIRMED_TRUST.map((fact) => (
+        <li>{fact.label}</li>
+      ))}
+    </ul>
+  ) : null
+}
+
+<style>
+  .trust-bar {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 0.9rem;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+  }
+
+  .trust-bar li {
+    font-size: var(--step--1);
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    color: var(--mist-100);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.4rem 0.95rem;
+    background: rgba(13, 60, 67, 0.35);
+  }
+</style>

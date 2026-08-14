@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import { REPLY_PROMISE } from '../data/site';
+---
+
+<Base
+  title="Thank you — your trip enquiry is on its way | freedive.ee"
+  description="Your trip-planning enquiry has been received."
+  path="/thank-you/"
+  noindex={true}
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Received</p>
+      <h1>Thank you — breathe out.</h1>
+      <p class="lead">
+        Your enquiry is with the team. You will get an automatic confirmation by email
+        and {REPLY_PROMISE}.
+      </p>
+
+      <div class="card summary" id="lead-summary" hidden>
+        <h2>What you sent us</h2>
+        <dl id="lead-summary-list"></dl>
+      </div>
+
+      <h2 class="next-heading">While you wait</h2>
+      <ul class="measure">
+        <li><a href="/seasons-and-conditions/">Get a feel for the seasons</a> your dates might land in.</li>
+        <li><a href="/rummu-quarry/">Read the Rummu story</a> — most trips end up orbiting it.</li>
+      </ul>
+      <a class="btn" href="/">Back to the start</a>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Render the submission summary saved by the plan form (client-only,
+  // nothing is fetched or sent anywhere from this page).
+  const box = document.getElementById('lead-summary');
+  const list = document.getElementById('lead-summary-list');
+  try {
+    const raw = sessionStorage.getItem('fd_lead_summary');
+    if (raw && box && list) {
+      const summary = JSON.parse(raw) as Record<string, unknown>;
+      const labels: Record<string, string> = {
+        travel_window: 'Travel window',
+        group_size: 'Group size',
+        experience_level: 'Experience level',
+        interests: 'Interests',
+      };
+      for (const [key, label] of Object.entries(labels)) {
+        const value = summary[key];
+        if (value == null || value === '' || (Array.isArray(value) && value.length === 0)) continue;
+        const dt = document.createElement('dt');
+        dt.textContent = label;
+        const dd = document.createElement('dd');
+        dd.textContent = Array.isArray(value) ? value.join(', ') : String(value);
+        list.append(dt, dd);
+      }
+      if (list.childElementCount > 0) box.hidden = false;
+      sessionStorage.removeItem('fd_lead_summary');
+    }
+  } catch {
+    /* summary is optional */
+  }
+</script>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+
+  .summary {
+    margin-block: var(--space-3);
+    max-width: var(--measure);
+  }
+
+  .summary h2 {
+    font-size: var(--step-1);
+  }
+
+  .summary dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.2rem;
+    margin: 0;
+  }
+
+  .summary dt {
+    font-weight: 650;
+    color: var(--text-strong);
+  }
+
+  .summary dd {
+    margin: 0;
+  }
+
+  .next-heading {
+    font-size: var(--step-1);
+    margin-top: var(--space-3);
+  }
+</style>

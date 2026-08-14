@@ -1,0 +1,169 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, CONTACT } from '../data/site';
+
+export interface Breadcrumb {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  /** Site-relative path with trailing slash, e.g. "/rummu-quarry/". */
+  path: string;
+  noindex?: boolean;
+  /** Site-relative OG image path. */
+  ogImage?: string;
+  breadcrumbs?: Breadcrumb[];
+  /** Offer route for the view_offer analytics event. */
+  offer?: 'start' | 'rummu' | 'plan_ahead';
+}
+
+const {
+  title,
+  description,
+  path,
+  noindex = false,
+  ogImage = '/og/og-default.jpg',
+  breadcrumbs,
+  offer,
+} = Astro.props;
+
+const canonical = new URL(path, SITE.url).href;
+const ogImageAbs = new URL(ogImage, SITE.url).href;
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? '';
+
+const organization = {
+  '@type': 'Organization',
+  '@id': 'https://meregrupp.ee/#organization',
+  name: SITE.brand.parent,
+  alternateName: SITE.brand.parentFull,
+  url: 'https://meregrupp.ee/',
+  email: CONTACT.email,
+  telephone: CONTACT.phoneDisplay,
+  sameAs: [CONTACT.facebook, 'https://freediving.meregrupp.ee/'],
+};
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    organization,
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE.url}/#website`,
+      url: `${SITE.url}/`,
+      name: SITE.tagline,
+      inLanguage: 'en',
+      publisher: { '@id': 'https://meregrupp.ee/#organization' },
+    },
+  ],
+};
+
+const breadcrumbLd = breadcrumbs?.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((crumb, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: crumb.name,
+        item: new URL(crumb.path, SITE.url).href,
+      })),
+    }
+  : null;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#04151d" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.tagline} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageAbs} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbs} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
+    {breadcrumbLd ? <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} /> : null}
+  </head>
+  <body data-gtm-id={GTM_ID} data-offer={offer}>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    {
+      GTM_ID ? (
+        <div
+          class="consent-banner"
+          id="consent-banner"
+          role="region"
+          aria-label="Analytics consent"
+          hidden
+        >
+          <div class="wrap consent-banner__inner">
+            <p class="consent-banner__text">
+              We would like to use anonymous analytics to understand which pages help visitors.
+              Nothing loads unless you agree. See our <a href="/privacy/">privacy page</a>.
+            </p>
+            <div class="consent-banner__actions">
+              <button class="btn btn--primary" type="button" data-consent="granted">Allow analytics</button>
+              <button class="btn" type="button" data-consent="denied">No thanks</button>
+            </div>
+          </div>
+        </div>
+      ) : null
+    }
+
+    <script src="../lib/analytics-client.ts"></script>
+
+    <style>
+      .consent-banner {
+        position: fixed;
+        inset-inline: 0;
+        bottom: 0;
+        z-index: 60;
+        background: var(--ink-900);
+        border-top: 1px solid var(--line);
+        padding-block: var(--space-2);
+      }
+      .consent-banner__inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        align-items: center;
+        justify-content: space-between;
+      }
+      .consent-banner__text {
+        margin: 0;
+        font-size: var(--step--1);
+      }
+      .consent-banner__actions {
+        display: flex;
+        gap: var(--space-1);
+        flex-wrap: wrap;
+      }
+    </style>
+  </body>
+</html>

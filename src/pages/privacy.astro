@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT, SITE } from '../data/site';
+---
+
+<Base
+  title="Privacy — how freedive.ee handles your data | freedive.ee"
+  description="What data freedive.ee collects through the trip-planning form and analytics, why, and how to reach us about it. Written to be readable, not to impress lawyers."
+  path="/privacy/"
+  breadcrumbs={[
+    { name: 'Freediving in Estonia', path: '/' },
+    { name: 'Privacy', path: '/privacy/' },
+  ]}
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Privacy</p>
+      <h1>What we collect, and why.</h1>
+      <p class="lead">
+        This page describes, in plain language, what happens to information you share on
+        {SITE.url.replace('https://', '')}. If anything here is unclear, ask us at
+        <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="form-privacy-heading">
+    <div class="wrap">
+      <h2 id="form-privacy-heading">The trip-planning form</h2>
+      <p class="measure">
+        When you send the <a href="/plan-your-trip/">Plan Your Trip</a> form, we receive
+        what you typed — name, email, optional phone, country, travel window, group
+        size, experience level and your message — together with basic context about how
+        you found the site (for example, which campaign link you arrived from).
+      </p>
+      <p class="measure">We use it for one thing: answering your enquiry and planning your trip with you.</p>
+      <ul class="measure">
+        <li>We reply from {CONTACT.email} — usually within two working days.</li>
+        <li>We do not sell your details or share them outside the Meregrupp team.</li>
+        <li>
+          Marketing updates are sent only if you tick the separate opt-in box — it is
+          never pre-ticked, and you can opt out any time by replying to any message.
+        </li>
+        <li>
+          Want your enquiry deleted? Email us and we will remove it.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="analytics-heading">
+    <div class="wrap">
+      <h2 id="analytics-heading">Analytics and cookies</h2>
+      <p class="measure">
+        We want to know which pages help visitors — not who you are. Measurement on this
+        site follows two rules:
+      </p>
+      <ul class="measure">
+        <li>
+          No analytics or measurement cookies load unless you agree first. If no consent
+          banner appears, no analytics is running at all.
+        </li>
+        <li>
+          Events we measure (like "a route card was clicked") never include your name,
+          email, phone number or anything you typed into a form.
+        </li>
+      </ul>
+      <p class="measure">
+        Links to our course and booking site, <strong>freediving.meregrupp.ee</strong>,
+        may carry campaign parameters so we understand which route brought you there.
+        Those parameters describe the link, not you.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="contact-privacy-heading">
+    <div class="wrap">
+      <h2 id="contact-privacy-heading">Questions</h2>
+      <p class="measure">
+        For anything about your data — access, correction, deletion — write to
+        <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> or call
+        <a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem) 0;
+  }
+</style>

@@ -1,0 +1,232 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import MediaSlot from '../components/MediaSlot.astro';
+import Faq from '../components/Faq.astro';
+import { SERVICES } from '../data/site';
+import rummuImage from '../assets/rummu-building.png';
+
+const faqs = [
+  {
+    q: 'Can beginners dive Rummu?',
+    a: 'A guided Rummu fundive is not a beginner course. If freediving is new to you, start with a beginner course first — the <a href="/start-here/">Start Here</a> page shows the way. Rummu will still be here when you are ready.',
+  },
+  {
+    q: 'Is the dive guaranteed to happen on my chosen date?',
+    a: 'No open-water dive here is ever guaranteed. Weather, water temperature, visibility, ice and site access all change, and the local guide makes the final go/no-go decision. We always discuss realistic dates and backup options with you.',
+  },
+  {
+    q: 'What will I actually see underwater?',
+    a: 'Quarry walls, flooded structures and equipment left behind when the pumps stopped — in northern water whose character shifts with the season. What is safely reachable on a given day depends on conditions and on your experience.',
+  },
+  {
+    q: 'Do I need my own equipment?',
+    a: 'Bring your own if you have it — cold-water exposure protection matters here. Tell us what you are missing in the suitability check and we will discuss options before your trip.',
+  },
+  {
+    q: 'How do I actually book?',
+    a: `Through the suitability check on our service site — it asks about your experience, comfort depth and dates, and the team replies personally: <a href="${SERVICES.rummuSuitability}" rel="noopener" data-track-event="outbound_service_click" data-track-service="rummu_suitability" data-track-destination="freediving.meregrupp.ee">check dates and suitability</a>.`,
+  },
+];
+---
+
+<Base
+  title="Rummu Quarry — guided freediving in a flooded prison quarry | freedive.ee"
+  description="Dive Rummu below the postcard: guided freediving in Estonia's flooded limestone quarry for trained freedivers, with a suitability check, local guides and honest conditions calls."
+  path="/rummu-quarry/"
+  offer="rummu"
+  breadcrumbs={[
+    { name: 'Freediving in Estonia', path: '/' },
+    { name: 'Rummu Quarry', path: '/rummu-quarry/' },
+  ]}
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Guided Rummu freediving</p>
+      <h1>Dive Rummu below the postcard.</h1>
+      <p class="lead">
+        Already trained in freediving? Explore Rummu with a local team that checks
+        experience, conditions and safety before depth.
+      </p>
+      <div class="hero__actions">
+        <a
+          class="btn btn--primary"
+          href={SERVICES.rummuSuitability}
+          rel="noopener"
+          data-track-event="outbound_service_click"
+          data-track-service="rummu_suitability"
+          data-track-origin="rummu_hero"
+          data-track-destination="freediving.meregrupp.ee"
+        >
+          Check dates and suitability
+          <span class="visually-hidden"> — continues on freediving.meregrupp.ee</span>
+        </a>
+      </div>
+      <p class="muted hero__note">The check continues on our course &amp; booking site.</p>
+    </div>
+    <div class="wrap hero__media">
+      <Picture
+        src={rummuImage}
+        widths={[480, 800, 1062]}
+        sizes="(min-width: 76rem) 72rem, 100vw"
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        alt="The flooded prison building rising above the water at Rummu quarry, with a freediver at the surface."
+        loading="eager"
+        fetchpriority="high"
+        class="hero-img"
+      />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="story-heading">
+    <div class="wrap">
+      <h2 id="story-heading">A quarry, a prison, and the water that took both back</h2>
+      <div class="grid grid--2">
+        <div>
+          <p>
+            Rummu began as a limestone quarry worked by inmates of the neighbouring
+            Murru prison. When the quarry closed and the pumps stopped, groundwater did
+            what groundwater does — and buildings, machinery and quarry walls slipped
+            below the surface of a new lake at the foot of a white spoil hill.
+          </p>
+          <p>
+            For freedivers, that history is the whole point. This is not a swimming
+            beach with a view; it is a flooded industrial landscape where a single
+            breath takes you along walls and past structures that were never meant to
+            be underwater.
+          </p>
+        </div>
+        <div>
+          <p>
+            Rummu rewards exactly the qualities freediving training builds: calm,
+            controlled movement, good buddy habits and respect for a site that changes
+            with weather and season.
+          </p>
+          <p>
+            That is why every Rummu dive we guide starts on dry land — with an honest
+            conversation about your experience and the day's conditions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="who-heading">
+    <div class="wrap">
+      <h2 id="who-heading">Who a guided Rummu dive is for</h2>
+      <p class="measure">
+        A guided fundive at Rummu is <strong>not a beginner course</strong>. It is for
+        people who already freedive and want to experience an unusual site with local
+        guidance. Before confirming a dive, we ask about:
+      </p>
+      <ul class="measure">
+        <li>your freediving level — a certification, or experience we can verify with you;</li>
+        <li>when you last dived, and how regularly you are in the water;</li>
+        <li>the depth you are genuinely comfortable at — not your personal best;</li>
+        <li>the equipment you own, especially cold-water exposure protection;</li>
+        <li>your group size and preferred dates.</li>
+      </ul>
+      <p class="measure">
+        New to freediving? Take the <a href="/start-here/">Start Here</a> route instead —
+        a first course is a far better first meeting with cold water than a fundive.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="safety-heading">
+    <div class="wrap">
+      <h2 id="safety-heading">Safety and the local guide come before the view</h2>
+      <div class="grid grid--2">
+        <div>
+          <p>
+            Every dive runs on a buddy system with a guide who dives Rummu across the
+            seasons. Briefings cover the site, the plan, signals and limits before
+            anyone enters the water. Depth comes after calm, technique and a buddy —
+            in that order.
+          </p>
+        </div>
+        <div>
+          <p>
+            The site is conditional by nature: wind, water temperature, visibility,
+            ice and access can all change between booking and dive day.
+            <strong>The final go/no-go decision always belongs to the local guide.</strong>
+            A postponed dive is a normal outcome here, not a failure of planning.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="logistics-heading">
+    <div class="wrap">
+      <h2 id="logistics-heading">Getting there and what to expect on land</h2>
+      <div class="grid grid--2">
+        <div>
+          <p>
+            Rummu lies in western Harju county, roughly an hour's drive from Tallinn.
+            Most visitors rent a car or arrange transport when planning their trip —
+            tell us in the suitability check if you need help thinking that through.
+          </p>
+          <p>
+            Facilities at the site are basic, and access arrangements can change; we
+            confirm the current meeting point and practical details with every group
+            before dive day.
+          </p>
+        </div>
+        <MediaSlot slot_id="rummu-shore" ratio="wide" />
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faqs} heading="Rummu questions, answered honestly" />
+
+  <section class="section section--line" aria-labelledby="cta-heading">
+    <div class="wrap">
+      <h2 id="cta-heading">Trained, curious and thinking about dates?</h2>
+      <p class="lead measure">
+        Tell the team your level, comfort depth and travel window — you will get a
+        personal, honest answer about whether and when Rummu fits.
+      </p>
+      <a
+        class="btn btn--primary"
+        href={SERVICES.rummuSuitability}
+        rel="noopener"
+        data-track-event="outbound_service_click"
+        data-track-service="rummu_suitability"
+        data-track-origin="rummu_footer_cta"
+        data-track-destination="freediving.meregrupp.ee"
+      >
+        Check dates and suitability
+        <span class="visually-hidden"> — continues on freediving.meregrupp.ee</span>
+      </a>
+      <p class="muted hero__note">Planning further ahead? <a href="/plan-your-trip/">Plan your trip</a> instead.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem) 0;
+  }
+
+  .hero__actions {
+    margin-top: var(--space-3);
+  }
+
+  .hero__note {
+    font-size: var(--step--1);
+    margin-top: var(--space-2);
+  }
+
+  .hero__media {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .hero :global(.hero-img) {
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--radius) + 6px);
+    border: 1px solid var(--line);
+  }
+</style>
