@@ -29,6 +29,28 @@ declare events with `data-track-*` attributes or call `window.fdTrack`.
 | `submit_lead` | **Only after the lead endpoint returns 2xx.** Never on validation failure, spam-trap swallow, or endpoint error. | `offer: plan_ahead`, `language`, `page` | Set `PUBLIC_LEAD_ENDPOINT` to a test endpoint, submit; event fires only on success response. |
 | `join_waitlist` | Reserved — no waitlist exists yet. Do not implement until one does. | — | — |
 
+### Events in the shared schema that this site does not fire
+
+The audit's scheme spans all Meregrupp portals. These three belong to
+the service site, which owns dates, qualification and bookings:
+
+| Event | Why not here | Canonical owner |
+| --- | --- | --- |
+| `select_date` | freedive.ee publishes no dates by design | freediving.meregrupp.ee |
+| `qualified_lead` | requires a CRM/human qualification step | CRM, server-side |
+| `booking_confirmed` | freedive.ee collects enquiries, never confirms a place | freediving.meregrupp.ee / CRM |
+
+`outbound_service_click` and `select_route` are additions specific to a
+gateway site whose main job is handing visitors over.
+
+### Deduplication
+
+Every event carries a generated `event_id`. `track()` additionally
+suppresses a repeat of the same event + identifying params within
+1200 ms, so a double-click or a doubled handler cannot produce two
+events. `view_offer` and `start_form` are additionally guarded to fire
+once per page view.
+
 ## Lead endpoint contract
 
 `POST ${PUBLIC_LEAD_ENDPOINT}` with `Content-Type: application/json`:
@@ -63,9 +85,23 @@ token server-side when a provider is chosen.
 
 ## Cross-domain
 
-Outbound CTAs to `freediving.meregrupp.ee` are plain links (same tab, as
-they are part of one brand journey). When GA4/GTM is introduced, set up
-cross-domain measurement between `freedive.ee` and
-`freediving.meregrupp.ee` in the GTM container configuration, and keep
-campaign parameters intact — the links themselves carry no UTM decoration
-by default so the service site's own attribution stays clean.
+Outbound CTAs to `freediving.meregrupp.ee` and `meregrupp.ee` are plain
+links (same tab — one brand journey).
+
+`decorateOutboundLinks()` in `src/lib/analytics-client.ts` appends the
+campaign that brought the visitor here, so the service site can
+attribute the enquiry to the right source:
+
+- stored UTM values (last touch, falling back to first touch) are copied
+  onto the outgoing URL;
+- anything missing falls back to `utm_source=freedive.ee`,
+  `utm_medium=referral`, `utm_campaign=<service>`;
+- parameters the link already declares are never overwritten, and the
+  `#fragment` is preserved — the service anchors depend on it;
+- campaign metadata only: no identifier, nothing the visitor typed.
+  This is exactly what `/privacy/` describes to the visitor.
+
+Decoration runs regardless of analytics consent because it carries no
+identifiers — it is attribution for the destination, not measurement
+here. When GA4/GTM is introduced, also configure the GTM cross-domain
+linker for both hosts.

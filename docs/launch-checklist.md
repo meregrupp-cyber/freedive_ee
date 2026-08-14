@@ -31,6 +31,63 @@ proxied traffic, so the security headers below need it.
       protection` links that need JS to decode. Relevant while the
       mailto fallback is the only working enquiry path.
 
+## From the four-portal audit (2026-08-14)
+
+Applied in this repo — see the PR for detail:
+
+- [x] Auto-confirmation promise now depends on `PUBLIC_LEAD_ENDPOINT`;
+      with no endpoint the site promises only a personal reply and
+      offers the email route. A smoke test enforces this.
+- [x] Word-join bugs fixed (`day.The`, `guide.A`, `here.Current`,
+      `share onfreedive.ee`) and a smoke test now fails the build if a
+      word joins across an inline tag anywhere.
+- [x] "same a personal reply…" phrasing fixed.
+- [x] `fundive` defined at first use.
+- [x] `robots.txt`: `OAI-SearchBot` and `ChatGPT-User` explicitly
+      allowed. No Cloudflare-managed block is injected on this host, so
+      there is no conflicting rule to resolve (unlike the other two
+      domains).
+- [x] `llms.txt` added with absolute links and the canonical
+      fact-ownership table; carries no price, depth or AIDA claim.
+- [x] `FAQPage` JSON-LD on the home and Rummu pages, generated from the
+      same array that renders the visible FAQ so the two cannot diverge.
+- [x] Cross-domain campaign hand-off: outbound links to the service hub
+      carry the visitor's UTMs (or `utm_source=freedive.ee` as
+      fallback), preserving the `#fragment`.
+- [x] `event_id` on every event plus 1200 ms deduplication — verified in
+      a browser: three rapid clicks produce one event.
+- [x] Verified: no range media queries (`@media (width >= …)`) are used,
+      so the old-iOS-Safari risk the audit flags does not apply here.
+
+**Owner actions this repo cannot perform** (not faked, not stubbed):
+
+- [ ] **Lead endpoint** — GitHub Pages has no serverless runtime, so the
+      audit's "create a Pages Function/Worker" is not available on this
+      host. Either move hosting to Cloudflare Pages (Functions
+      available) or point `PUBLIC_LEAD_ENDPOINT` at an external form
+      backend. The client contract is in `docs/tracking-spec.md`.
+- [ ] **GPTBot training policy** — deliberately left at the general
+      rule. Meregrupp decides whether to opt out of training while
+      keeping ChatGPT Search visibility; the exact block to paste is
+      commented in `public/robots.txt`.
+- [ ] **One response-time standard** — freedive.ee promises a personal
+      reply within two working days (matching the concept);
+      freediving.meregrupp.ee currently promises no response time. Pick
+      one and apply it on both.
+- [ ] **Search Console / Bing Webmaster** verification, sitemap
+      submission and re-indexing requests for all three domains.
+- [ ] **Facebook page work** — intro, categories, main link order, CTA,
+      pinned three-route post, cover-image safe areas.
+- [ ] **Real-device acceptance testing** (iOS Safari, Android Chrome,
+      Windows Edge/Chrome, macOS Safari) — emulation does not substitute.
+- [ ] Items for the other two repos (`meregrupp.ee`,
+      `freediving.meregrupp.ee`): mailto-submit forms, `MG_FORM_ENDPOINT`,
+      the `mgEventQueue` no-op sender, production notes still in public
+      text, hero MP4 ≈7.7 MB, heading hierarchy, touch targets, the
+      `/en/freediving/` meta-refresh that must become a real 301/308,
+      Cloudflare robots.txt conflicts, and the `llms.txt` claim that
+      freedive.ee sends booking traffic to meregrupp.ee.
+
 ## Launch blockers (must be resolved before go-live)
 
 - [ ] **Lead endpoint**: set `PUBLIC_LEAD_ENDPOINT` (form backend / CRM

@@ -21,6 +21,9 @@ const FIRST_TOUCH_KEY = 'fd_first_touch';
 const LAST_TOUCH_KEY = 'fd_last_touch';
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const;
 
+/** A stored attribution snapshot (UTMs plus landing page and referrer). */
+type Touch = Record<string, string>;
+
 const gtmId = document.body.dataset.gtmId ?? '';
 const queue: QueuedEvent[] = [];
 let gtmLoaded = false;
@@ -91,8 +94,40 @@ function flushQueue(): void {
   }
 }
 
+/**
+ * Deduplication: one user action must produce exactly one event.
+ * Keyed by event name + its identifying params, with a short window that
+ * absorbs double-clicks and repeated handlers.
+ */
+const DEDUPE_WINDOW_MS = 1200;
+const recentEvents = new Map<string, number>();
+
+function isDuplicate(key: string): boolean {
+  const now = Date.now();
+  for (const [k, t] of recentEvents) {
+    if (now - t > DEDUPE_WINDOW_MS) recentEvents.delete(k);
+  }
+  if (recentEvents.has(key)) return true;
+  recentEvents.set(key, now);
+  return false;
+}
+
+function newEventId(): string {
+  return crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 function track(event: string, params: EventParams = {}): void {
-  const enriched: EventParams = { language: 'en', page: location.pathname, ...params };
+  const dedupeKey = [event, params.offer, params.route, params.service, params.destination].join('|');
+  if (isDuplicate(dedupeKey)) return;
+
+  const enriched: EventParams = {
+    language: 'en',
+    page: location.pathname,
+    event_id: newEventId(),
+    ...params,
+  };
   if (!gtmId) {
     if (import.meta.env.DEV) console.debug('[analytics:dev]', event, enriched);
     return;
@@ -153,6 +188,50 @@ function initClickTracking(): void {
   });
 }
 
+/* ---------- cross-domain campaign hand-off ----------
+   Links leaving for the service hub carry the campaign that brought the
+   visitor here, so freediving.meregrupp.ee can attribute the enquiry to
+   the right source. Campaign metadata only — never an identifier, and
+   never anything the visitor typed. Documented on /privacy/. */
+
+const BRAND_HOSTS = new Set(['freediving.meregrupp.ee', 'meregrupp.ee', 'www.meregrupp.ee']);
+
+function decorateOutboundLinks(): void {
+  const touch = readStoredTouch();
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((link) => {
+    let url: URL;
+    try {
+      url = new URL(link.href, location.href);
+    } catch {
+      return;
+    }
+    if (!BRAND_HOSTS.has(url.hostname)) return;
+
+    // Never overwrite parameters the link already declares.
+    const setIfAbsent = (key: string, value: string | undefined) => {
+      if (value && !url.searchParams.has(key)) url.searchParams.set(key, value);
+    };
+
+    for (const key of UTM_KEYS) setIfAbsent(key, touch?.[key]);
+    // Fall back to describing this site as the source.
+    setIfAbsent('utm_source', 'freedive.ee');
+    setIfAbsent('utm_medium', 'referral');
+    setIfAbsent('utm_campaign', link.dataset.trackService ?? 'destination_gateway');
+
+    link.href = url.toString(); // URL keeps the #fragment intact
+  });
+}
+
+function readStoredTouch(): Touch | null {
+  try {
+    const raw = sessionStorage.getItem(LAST_TOUCH_KEY) ?? localStorage.getItem(FIRST_TOUCH_KEY);
+    return raw ? (JSON.parse(raw) as Touch) : null;
+  } catch {
+    return null;
+  }
+}
+
 /* ---------- page-level view_offer ---------- */
 
 function initViewOffer(): void {
@@ -161,6 +240,7 @@ function initViewOffer(): void {
 }
 
 captureTouch();
+decorateOutboundLinks();
 initConsentBanner();
 initClickTracking();
 initViewOffer();

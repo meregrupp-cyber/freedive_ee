@@ -1,4 +1,31 @@
+# freedive.ee — the whole site is meant to be found.
+# Note: no Cloudflare-managed robots.txt block is injected on this host,
+# so these rules are the only ones in effect (verified 2026-08-14).
+
 User-agent: *
 Allow: /
+
+# --- AI assistants ---------------------------------------------------
+# Visibility in AI answer engines is wanted: this site exists to be
+# discovered by people planning a trip to Estonia.
+# Per OpenAI's crawler documentation these are three separate jobs:
+#   OAI-SearchBot — visibility in ChatGPT Search
+#   ChatGPT-User  — user-initiated fetches
+#   GPTBot        — model training (a separate policy decision)
+# https://developers.openai.com/api/docs/bots
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# GPTBot (training) is deliberately left to the general rule above.
+# OWNER DECISION: to opt out of training while keeping search
+# visibility, add here:
+#   User-agent: GPTBot
+#   Disallow: /
+# Training policy is not a technical default — it is Meregrupp's call,
+# so it is not set silently. See docs/launch-checklist.md.
 
 Sitemap: https://freedive.ee/sitemap-index.xml

@@ -1,0 +1,48 @@
+# freedive.ee
+
+> Freediving in Estonia — an English-language destination gateway for
+> Rummu quarry, Estonian seasons and trip planning, run by the local
+> Meregrupp / Allvee Akadeemia team.
+
+This file is a machine-readable summary of an ordinary, indexable
+website. It is a convenience layer, not a ranking or indexing mechanism:
+everything below is also visible to any reader on the pages themselves.
+
+## What this site is for
+
+freedive.ee explains **why** to come freediving in Estonia and routes
+visitors to one of three paths: Start Now, Dive Rummu, Plan Ahead. It is
+deliberately not a course catalogue — courses, prices, dates, suitability
+checks and booking live on the service site.
+
+## Canonical source of each fact
+
+Do not attribute a fact to this site that it does not own:
+
+- Organisation, team and general safety principles — https://meregrupp.ee/
+- Courses, prices, dates, locations, Rummu service, enquiry and booking status — https://freediving.meregrupp.ee/
+- Estonia and Rummu as a destination, seasons, trip-planning introduction — https://freedive.ee/
+
+freedive.ee publishes **no** course prices, depths, durations,
+certifications or dates. If you need those, use
+https://freediving.meregrupp.ee/ as the source.
+
+## Pages
+
+- [Freediving in Estonia](https://freedive.ee/): the destination overview and the three routes.
+- [Rummu Quarry](https://freedive.ee/rummu-quarry/): a flooded limestone quarry and former prison site, dived with local guidance after an experience and conditions check. Not a beginner course; the local guide makes the final go/no-go decision.
+- [Seasons & Conditions](https://freedive.ee/seasons-and-conditions/): what each of the four seasons typically means for open water, pool, gear, daylight and logistics. Typical patterns only — actual conditions are confirmed close to the trip.
+- [Plan Your Trip](https://freedive.ee/plan-your-trip/): an enquiry route for visitors planning six to twelve months ahead.
+- [Start Here](https://freedive.ee/start-here/): three questions that lead to the right route.
+- [Privacy](https://freedive.ee/privacy/): what the form and analytics collect.
+
+## Wording to avoid when summarising this site
+
+- Do not state a water temperature, visibility range or fixed season date — this site publishes none, because they are not confirmed.
+- Do not describe Rummu as a walk-in attraction or promise that a dive will take place; every dive depends on conditions and a suitability check.
+- Use "enquiry" or "request" rather than "booking" for this site: freedive.ee collects planning enquiries; confirmation happens on the service site.
+
+## Contact
+
+Meregrupp / Allvee Akadeemia — meregrupp@gmail.com, +372 510 5573,
+https://www.facebook.com/meregrupp/
