@@ -1,0 +1,8 @@
+# Host-level redirect sample (Cloudflare Pages / Netlify "_redirects" format).
+# The production host must also 301 http:// and www. variants to
+# https://freedive.ee — that part is configured at the DNS/CDN level, not here.
+# Full mapping and rationale: docs/url-redirect-map.csv
+
+# Legacy single-page site had no other paths; any stale deep link goes to
+# the closest new page rather than blanket-redirecting to the front page.
+/index.html    /    301
