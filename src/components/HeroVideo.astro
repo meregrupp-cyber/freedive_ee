@@ -6,11 +6,17 @@
  * Rules implemented (see docs/asset-requirements.md):
  * - video is muted, looped, playsinline, decorative (aria-hidden);
  * - it never blocks the H1/lead/CTA — it sits in its own block below;
- * - prefers-reduced-motion, Save-Data, slow connections and narrow
- *   viewports all get the optimized still image instead;
- * - sources are injected by JS only when the video may play, so mobile
- *   never downloads a byte of it;
+ * - prefers-reduced-motion, Save-Data and slow connections get the
+ *   optimized still image instead;
+ * - sources are injected by JS only when the video may play, so a
+ *   device that will not show it never downloads a byte;
+ * - if autoplay is refused (e.g. iOS Low Power Mode) the still image
+ *   stays;
  * - a visible pause/play control satisfies WCAG 2.2.2.
+ *
+ * Mobile plays the video too: the files are cropped to the strip the
+ * layout actually shows and carry no audio track, so they cost
+ * 263 kB (webm) / 405 kB (mp4).
  */
 import { Picture } from 'astro:assets';
 import heroImage from '../assets/hero-rummu.png';
@@ -64,7 +70,6 @@ import heroImage from '../assets/hero-rummu.png';
   function videoAllowed(): boolean {
     if (!wrap || !video) return false;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
-    if (!window.matchMedia('(min-width: 48rem)').matches) return false;
     const conn = (navigator as Navigator & { connection?: NetInfo }).connection;
     if (conn?.saveData) return false;
     if (conn?.effectiveType && /(^|\b)(slow-2g|2g|3g)$/.test(conn.effectiveType)) return false;
@@ -168,14 +173,5 @@ import heroImage from '../assets/hero-rummu.png';
   .hero-media__toggle:hover {
     border-color: var(--accent);
     color: var(--foam-50);
-  }
-
-  @media (max-width: 48rem) {
-    .hero-media__video {
-      display: none !important;
-    }
-    .hero-media.is-video :global(.hero-media__img) {
-      display: block;
-    }
   }
 </style>
