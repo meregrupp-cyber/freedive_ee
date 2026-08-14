@@ -26,7 +26,7 @@ recognisable in the frame must have agreed to marketing use).
 | Per-page OG images | default OG everywhere | one per page: Rummu (ruins), seasons (winter/summer contrast), plan (map/planning vibe) — 1200×630 |
 | Seasons page | no imagery (text-first by design) | optional: 4 seasonal shots of the same site, landscape 3:2, ≥1600px wide |
 | Team section (home) | text only | buddy-contact photo: two divers at the surface, human faces, cold light, landscape, ≥1600px wide |
-| Hero video | **delivered** — `public/media/hero.webm` (821 KB) + `hero.mp4` (7.4 MB) + optimized poster (`hero-poster.jpg`, 26 KB), taken from the meregrupp-cyber/meregrupp001-ee repo (assets/). Implemented in `src/components/HeroVideo.astro`: muted, looped, playsinline, decorative, pause/play control, injected only on ≥48rem viewports without reduced-motion/Save-Data — mobile and reduced-motion get the banner image | optional upgrade: a Rummu-specific clip graded to match the site palette |
+| Hero video | **delivered and optimized** — `public/media/hero.webm` (263 KB) + `hero.mp4` (405 KB) + `hero-poster.jpg` (6 KB), from the meregrupp-cyber/meregrupp001-ee repo. Source was 768×576 at 5 Mbps with an unused audio track; re-encoded cropped to 768×320 (the strip the layout shows) with audio stripped, cutting the mp4 by 94%. Plays on mobile and desktop; reduced-motion, Save-Data, slow connections and refused autoplay fall back to the banner image | optional upgrade: a Rummu-specific clip graded to match the site palette; a taller mobile crop if the hero strip should have more presence on phones |
 
 ## Adding a photo to a slot
 
