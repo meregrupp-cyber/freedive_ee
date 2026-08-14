@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import { CONTACT, SERVICES, SITE } from '../data/site';
+import logo from '../assets/allvee-akadeemia.webp';
 const year = new Date().getFullYear();
 ---
 
@@ -7,15 +9,18 @@ const year = new Date().getFullYear();
   <span id="contact" class="anchor-alias" aria-hidden="true"></span>
   <div class="wrap site-footer__grid">
     <div>
-      <p class="site-footer__brand">freedive<span>.ee</span></p>
+      <div class="site-footer__mark">
+        <Image src={logo} alt="Allvee Akadeemia" width={64} height={64} densities={[1, 2]} loading="lazy" />
+        <p class="site-footer__brand">freedive<span>.ee</span></p>
+      </div>
       <p class="muted">
         {SITE.tagline} — the destination gateway of {SITE.brand.parentFull}, a local
         freediving team training in Estonia year-round.
       </p>
       <p class="muted">
-        Courses, dates and booking live on
+        Courses, dates and booking live on{' '}
         <a href={SERVICES.serviceHome} data-track-event="outbound_service_click" data-track-service="service_home" data-track-destination="freediving.meregrupp.ee">freediving.meregrupp.ee</a>.
-        More about the team on
+        More about the team on{' '}
         <a href={SERVICES.hubPortal} data-track-event="outbound_service_click" data-track-service="hub_portal" data-track-destination="meregrupp.ee">meregrupp.ee</a>.
       </p>
     </div>
@@ -68,11 +73,24 @@ const year = new Date().getFullYear();
     }
   }
 
+  .site-footer__mark {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .site-footer__mark :global(img) {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+  }
+
   .site-footer__brand {
     font-weight: 800;
     font-size: var(--step-1);
     color: var(--foam-50);
-    margin-bottom: var(--space-1);
+    margin: 0;
   }
 
   .site-footer__brand span {
