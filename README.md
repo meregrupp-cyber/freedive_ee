@@ -87,14 +87,26 @@ contract (including required server-side validation and rate limiting).
   Host-level redirect samples: `public/_redirects` (paths) and README
   notes in that file for host variants.
 
-## Deploy assumptions
+## Deploy
 
-Any static host works (`dist/` output). The production host must:
+Production runs on **GitHub Pages behind Cloudflare DNS**:
 
-1. 301 `http://` and `www.` variants to `https://freedive.ee`;
-2. serve `404.html` for unknown paths with status 404;
-3. apply the security headers in `public/_headers` (native on
-   Cloudflare Pages/Netlify; replicate manually elsewhere);
-4. serve real HTTP 301s from `public/_redirects` (or equivalent).
+- `.github/workflows/deploy.yml` builds, smoke-tests and publishes
+  `dist/` to the `gh-pages` branch on every push to `main`
+  (custom domain via `public/CNAME`; `.nojekyll` added at deploy).
+- Optional build-time config comes from repo **Actions variables**
+  (`PUBLIC_LEAD_ENDPOINT`, `PUBLIC_GTM_ID`).
+- Cloudflare (DNS for freedive.ee) provides what GitHub Pages cannot:
+  1. apex `A` records → GitHub Pages IPs, `www` CNAME →
+     `meregrupp-cyber.github.io`;
+  2. 301 of `www.` → apex (Cloudflare Redirect Rule) — `http://` → HTTPS
+     comes from GitHub Pages "Enforce HTTPS" and/or Cloudflare;
+  3. security headers via a Cloudflare Transform Rule (values in
+     `public/_headers` — GitHub Pages does not read that file; it is the
+     source of truth for the rule).
+- `public/_redirects` is likewise a documentation/portability file on
+  GitHub Pages; path-level 301s must be added as Cloudflare rules if
+  ever needed.
 
-Before go-live, work through `docs/launch-checklist.md`.
+Any other static host also works (`dist/` output) if it covers the same
+four concerns. Before go-live, work through `docs/launch-checklist.md`.

@@ -11,12 +11,18 @@
 - [ ] **Server-side validation + rate limiting** on the endpoint
       (honeypot, `seconds_on_page`, email format, per-IP limits) — the
       static site cannot do this part.
-- [ ] **Host redirects**: 301 `http://` and `www.` variants to
-      `https://freedive.ee` at the DNS/CDN level
+- [ ] **Cloudflare DNS → GitHub Pages** (host is GitHub Pages, DNS is
+      Cloudflare): apex `A` records to the four GitHub Pages IPs +
+      `www` CNAME to `meregrupp-cyber.github.io`; then set custom
+      domain + "Enforce HTTPS" in the repo's Pages settings once the
+      certificate is issued.
+- [ ] **Host redirects**: `www.` → apex 301 via a Cloudflare Redirect
+      Rule; HTTP → HTTPS via GitHub Pages "Enforce HTTPS" (and
+      Cloudflare "Always Use HTTPS" once proxied)
       (docs/url-redirect-map.csv rows marked `pending_host_config`).
-- [ ] **Security headers** applied at the host (see `public/_headers`;
-      if the host does not read `_headers`, replicate them). Add the
-      lead-endpoint origin to `connect-src`.
+- [ ] **Security headers** via a Cloudflare Transform Rule — GitHub
+      Pages cannot set custom headers; `public/_headers` holds the
+      values to copy. Add the lead-endpoint origin to `connect-src`.
 - [ ] **Meregrupp sign-off on facts**: trust badge still excluded
       ("Tallinn & open water"), instructor credentials,
       Rummu access/logistics wording — see docs/content-and-facts.md.
