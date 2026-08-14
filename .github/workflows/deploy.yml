@@ -52,16 +52,24 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          api="https://api.github.com/repos/${{ github.repository }}/pages"
           status=$(curl -s -o /dev/null -w "%{http_code}" \
             -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/pages")
-          echo "Pages API status: $status"
+            -H "Accept: application/vnd.github+json" "$api")
+          echo "Pages GET status: $status"
           if [ "$status" = "404" ]; then
-            curl -sf -X POST \
+            response=$(curl -s -w "\n%{http_code}" -X POST \
               -H "Authorization: Bearer $GH_TOKEN" \
               -H "Accept: application/vnd.github+json" \
-              "https://api.github.com/repos/${{ github.repository }}/pages" \
-              -d '{"source":{"branch":"gh-pages","path":"/"}}'
-            echo "Pages enabled from gh-pages branch"
+              -H "Content-Type: application/json" \
+              "$api" \
+              --data '{"source":{"branch":"gh-pages","path":"/"}}')
+            code=$(echo "$response" | tail -1)
+            echo "Pages POST status: $code"
+            echo "$response" | head -n -1
+            case "$code" in
+              2*) echo "Pages enabled from gh-pages branch" ;;
+              409) echo "Pages already being created — OK" ;;
+              *) echo "::warning::Could not enable Pages via API (status $code). Enable once manually: Settings → Pages → Deploy from branch → gh-pages." ;;
+            esac
           fi
